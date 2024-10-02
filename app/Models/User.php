@@ -20,6 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'two_factor_code',
+        'two_factor_expires_at',
     ];
 
     /**
@@ -44,4 +46,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function generateTwoFactorCode()
+{
+    $this->timestamp = false;
+    $this->two_factor_code = rand(100000, 999999);
+    $this->two_factor_expires_at = now()->addMinutes(10);
+}
+
+public function resetTwoFactorCode()
+{
+    $this->timestamp = false;
+    $this->two_factor_code = null;
+    $this->two_factor_expires_at = null;
+}
+
 }
